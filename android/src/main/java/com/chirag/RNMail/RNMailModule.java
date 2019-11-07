@@ -95,7 +95,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
     }
 
-    for(i = 0; i < fileAttachmentUriList.size(); i++){
+    for(int i = 0; i < fileAttachmentUriList.size(); ++i){
         Uri uri = fileAttachmentUriList.get(i);
         List<ResolveInfo> resolvedIntentActivities = reactContext.getPackageManager().queryIntentActivities(i,
             PackageManager.MATCH_DEFAULT_ONLY);

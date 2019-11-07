@@ -141,7 +141,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
   private ArrayList<Uri> getFileAttachmentUriList(ReadableMap options){
       ArrayList<Uri> fileAttachmentUriList = new ArrayList<Uri>();
-      if(options.hasKey('attachmentList') && !options.isNull('attachmentList')){
+      if(options.hasKey("attachmentList") && !options.isNull("attachmentList")){
         
         ReadableArray attachmentList = options.getArray("attachmentList");
         int length = attachmentList.size();

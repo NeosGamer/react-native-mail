@@ -74,7 +74,6 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
     Log.d(TAG, intentAction);
     Intent mailIntent = new Intent(intentAction);
-    mailIntent.setType('text')
     mailIntent.setData(Uri.parse("mailto:"));
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
@@ -114,7 +113,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     PackageManager manager = reactContext.getPackageManager();
     List<ResolveInfo> list = manager.queryIntentActivities(mailIntent, 0);
 
-    Log.d(TAG, 'LIST SIZE '+list.size());
+    Log.d(TAG, "LIST SIZE "+list.size());
 
     if (list == null || list.size() == 0) {
       callback.invoke("not_available");

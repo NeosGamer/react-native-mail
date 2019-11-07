@@ -17,6 +17,8 @@ import com.facebook.react.bridge.Callback;
 import java.util.List;
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * NativeModule that allows JS to open emails sending apps chooser.

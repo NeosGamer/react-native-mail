@@ -68,11 +68,13 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     ArrayList<Uri> fileAttachmentUriList = getFileAttachmentUriList(options);
     Log.d(TAG, "FILE ATTACHMENT SIZE "+fileAttachmentUriList.size());
 
-    if (1 <= fileAttachmentUriList.size()) {
+    if (fileAttachmentUriList.size() > 1) {
        intentAction = Intent.ACTION_SEND_MULTIPLE;
     }
 
+    Log.d(TAG, intentAction);
     Intent mailIntent = new Intent(intentAction);
+    mailIntent.setType('text')
     mailIntent.setData(Uri.parse("mailto:"));
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
@@ -103,21 +105,16 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       mailIntent.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
     }
 
-    for(int i = 0; i < fileAttachmentUriList.size(); ++i){
-        Uri uri = fileAttachmentUriList.get(i);
-        List<ResolveInfo> resolvedIntentActivities = reactContext.getPackageManager().queryIntentActivities(mailIntent,
-            PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
-          String packageName = resolvedIntentInfo.activityInfo.packageName;
-          reactContext.grantUriPermission(packageName, uri,
-              Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-        mailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        mailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+     if (1 <= fileAttachmentUriList.size()) {
+        // If multiple attachments setType("plain/text"), else queryIntentActivities fails
+        mailIntent.setType("plain/text");
+        mailIntent.putExtra(Intent.EXTRA_STREAM, fileAttachmentUriList);
     }
 
     PackageManager manager = reactContext.getPackageManager();
     List<ResolveInfo> list = manager.queryIntentActivities(mailIntent, 0);
+
+    Log.d(TAG, 'LIST SIZE '+list.size());
 
     if (list == null || list.size() == 0) {
       callback.invoke("not_available");

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.support.v4.content.FileProvider;
 
 import com.facebook.react.bridge.ReactApplicationContext;

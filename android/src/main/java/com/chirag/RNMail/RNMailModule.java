@@ -24,7 +24,7 @@ import java.util.Arrays;
  * NativeModule that allows JS to open emails sending apps chooser.
  */
 public class RNMailModule extends ReactContextBaseJavaModule {
-
+  private static final String TAG = RNMailModule.class.getSimpleName();
   ReactApplicationContext reactContext;
 
   public RNMailModule(ReactApplicationContext reactContext) {
@@ -57,59 +57,66 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void mail(ReadableMap options, Callback callback) {
+
+    Log.d(TAG, "***********" );
+    Log.d(TAG, "RNMail:mail" );
+    Log.d(TAG, "***********" );
+
     String intentAction = Intent.ACTION_SENDTO;
 
     ArrayList<Uri> fileAttachmentUriList = getFileAttachmentUriList(options);
+    Log.d(TAG, "FILE ATTACHMENT SIZE "+fileAttachmentUriList.size
+
     if (1 <= fileAttachmentUriList.size()) {
        intentAction = Intent.ACTION_SEND_MULTIPLE;
     }
 
-    Intent intent = new Intent(intentAction);
-    intent.setData(Uri.parse("mailto:"));
+    Intent mailIntent = new Intent(intentAction);
+    mailIntent.setData(Uri.parse("mailto:"));
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
-      intent.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
+      mailIntent.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
     }
 
     if (options.hasKey("body") && !options.isNull("body")) {
       String body = options.getString("body");
       if (options.hasKey("isHTML") && options.getBoolean("isHTML")) {
-        intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(body));
+        mailIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(body));
       } else {
-        intent.putExtra(Intent.EXTRA_TEXT, body);
+        mailIntent.putExtra(Intent.EXTRA_TEXT, body);
       }
     }
 
     if (options.hasKey("recipients") && !options.isNull("recipients")) {
       ReadableArray recipients = options.getArray("recipients");
-      intent.putExtra(Intent.EXTRA_EMAIL, readableArrayToStringArray(recipients));
+      mailIntent.putExtra(Intent.EXTRA_EMAIL, readableArrayToStringArray(recipients));
     }
 
     if (options.hasKey("ccRecipients") && !options.isNull("ccRecipients")) {
       ReadableArray ccRecipients = options.getArray("ccRecipients");
-      intent.putExtra(Intent.EXTRA_CC, readableArrayToStringArray(ccRecipients));
+      mailIntent.putExtra(Intent.EXTRA_CC, readableArrayToStringArray(ccRecipients));
     }
 
     if (options.hasKey("bccRecipients") && !options.isNull("bccRecipients")) {
       ReadableArray bccRecipients = options.getArray("bccRecipients");
-      intent.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
+      mailIntent.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
     }
 
     for(int i = 0; i < fileAttachmentUriList.size(); ++i){
         Uri uri = fileAttachmentUriList.get(i);
-        List<ResolveInfo> resolvedIntentActivities = reactContext.getPackageManager().queryIntentActivities(intent,
+        List<ResolveInfo> resolvedIntentActivities = reactContext.getPackageManager().queryIntentActivities(mailIntent,
             PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
           String packageName = resolvedIntentInfo.activityInfo.packageName;
           reactContext.grantUriPermission(packageName, uri,
               Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        mailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        mailIntent.putExtra(Intent.EXTRA_STREAM, uri);
     }
 
     PackageManager manager = reactContext.getPackageManager();
-    List<ResolveInfo> list = manager.queryIntentActivities(intent, 0);
+    List<ResolveInfo> list = manager.queryIntentActivities(mailIntent, 0);
 
     if (list == null || list.size() == 0) {
       callback.invoke("not_available");
@@ -118,14 +125,14 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
     if (list.size() == 1) {
 
-      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      mailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       try {
-        reactContext.startActivity(intent);
+        reactContext.startActivity(mailIntent);
       } catch (Exception ex) {
         callback.invoke("error");
       }
     } else {
-      Intent chooser = Intent.createChooser(intent, "Send Mail");
+      Intent chooser = Intent.createChooser(mailIntent, "Send Mail");
       chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
       try {

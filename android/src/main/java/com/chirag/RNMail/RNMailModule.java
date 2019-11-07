@@ -55,7 +55,14 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void mail(ReadableMap options, Callback callback) {
-    Intent i = new Intent(Intent.ACTION_SENDTO);
+    String intentAction = Intent.ACTION_SENDTO;
+
+    ArrayList<Uri> fileAttachmentUriList = getFileAttachmentUriList(options);
+    if (1 <= fileAttachmentUriList.size()) {
+       intentAction = Intent.ACTION_SEND_MULTIPLE;
+    }
+
+    Intent i = new Intent(intentAction);
     i.setData(Uri.parse("mailto:"));
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
@@ -85,17 +92,9 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       ReadableArray bccRecipients = options.getArray("bccRecipients");
       i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
     }
-    Uri uri = null;
-    if (options.hasKey("attachment") && !options.isNull("attachment")) {
-      ReadableMap attachment = options.getMap("attachment");
-      if (attachment.hasKey("path") && !attachment.isNull("path")) {
-        String path = attachment.getString("path");
-        File file = new File(path);
 
-        String provider = reactContext.getApplicationContext().getPackageName() + ".provider";
-
-        uri = FileProvider.getUriForFile(reactContext, provider, file);
-
+    for(i = 0; i < fileAttachmentUriList.size(); i++){
+        Uri uri = fileAttachmentUriList.get(i);
         List<ResolveInfo> resolvedIntentActivities = reactContext.getPackageManager().queryIntentActivities(i,
             PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
@@ -105,8 +104,6 @@ public class RNMailModule extends ReactContextBaseJavaModule {
         }
         i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         i.putExtra(Intent.EXTRA_STREAM, uri);
-
-      }
     }
 
     PackageManager manager = reactContext.getPackageManager();
@@ -140,5 +137,31 @@ public class RNMailModule extends ReactContextBaseJavaModule {
      * Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
      * Intent.FLAG_GRANT_READ_URI_PERMISSION); }
      */
+  }
+
+  private ArrayList<Uri> getFileAttachmentUriList(ReadableMap options){
+      ArrayList<Uri> fileAttachmentUriList = new ArrayList<Uri>();
+      if(options.hasKey('attachmentList') && !options.isNull('attachmentList')){
+        
+        ReadableArray attachmentList = options.getArray("attachmentList");
+        int length = attachmentList.size();
+
+        for(int i = 0; i < length; ++i) {
+            ReadableMap attachmentItem = attachmentList.getMap(i);
+            String path = attachmentItem.getString("path");
+            Uri uri = null;
+
+            File file = new File(path);
+
+            String provider = reactContext.getApplicationContext().getPackageName() + ".provider";
+
+            uri = FileProvider.getUriForFile(reactContext, provider, file);
+
+            if(uri != null){
+                fileAttachmentUriList.add(uri);
+            }
+        }
+    }
+    return fileAttachmentUriList;
   }
 }

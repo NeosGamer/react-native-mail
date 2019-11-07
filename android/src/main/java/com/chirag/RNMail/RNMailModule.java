@@ -68,8 +68,8 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     ArrayList<Uri> fileAttachmentUriList = getFileAttachmentUriList(options);
     Log.d(TAG, "FILE ATTACHMENT SIZE "+fileAttachmentUriList.size());
 
-    if (fileAttachmentUriList.size() > 1) {
-       intentAction = Intent.ACTION_SEND_MULTIPLE;
+    if (1 <= fileAttachmentUriList.size()) {
+        intentAction = Intent.ACTION_SEND_MULTIPLE;
     }
 
     Log.d(TAG, intentAction);

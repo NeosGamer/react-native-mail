@@ -79,6 +79,10 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 if (name == nil){
                     name = [[path lastPathComponent] stringByDeletingPathExtension];
                 }
+
+                if (type == nil){
+                    type = [[path lastPathComponent] pathExtension];
+                }
                 // Get the resource path and read the file using NSData
                 NSData *fileData = [NSData dataWithContentsOfFile:path];
 

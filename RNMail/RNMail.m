@@ -130,7 +130,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 } else if ([type isEqualToString:@"xlsx"]) {
                     mimeType = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                 } else if ([type isEqualToString:@"mov"]) {
-                    mimeType = @"video/quicktime"
+                    mimeType = @"video/quicktime";
                 }
                 [mail addAttachmentData:fileData mimeType:mimeType fileName:name];
             }

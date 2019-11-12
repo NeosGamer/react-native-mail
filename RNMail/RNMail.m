@@ -132,7 +132,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                     } else if ([type localizedCaseInsensitiveCompare:@"mov"] == NSOrderedSame) {
                         mimeType = @"video/quicktime";
                     } else if ([type localizedCaseInsensitiveCompare:@"mp4"] == NSOrderedSame) {
-                        mimeType = @"video/mp4"
+                        mimeType = @"video/mp4";
                     }
 
                     if(mimeType != nil && name != nil && fileData != nil){

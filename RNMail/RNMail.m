@@ -89,49 +89,49 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 // Determine the MIME type
                 NSString *mimeType;
                 if (type != nil){
-                    if ([type compare@"jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    if ([type localizedCaseInsensitiveCompare:@"jpg"] == NSOrderedSame) {
                         mimeType = @"image/jpeg";
-                    } else if ([type compare@"png" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"png"] == NSOrderedSame) {
                         mimeType = @"image/png";
-                    } else if ([type compare@"doc" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"doc"] == NSOrderedSame) {
                         mimeType = @"application/msword";
-                    } else if ([type compare@"docx" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"docx"] == NSOrderedSame) {
                         mimeType = @"application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-                    } else if ([type compare@"ppt" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"ppt"] == NSOrderedSame) {
                         mimeType = @"application/vnd.ms-powerpoint";
-                    } else if ([type compare@"pptx" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"pptx"] == NSOrderedSame) {
                         mimeType = @"application/vnd.openxmlformats-officedocument.presentationml.presentation";
-                    } else if ([type compare@"html" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"html"] == NSOrderedSame) {
                         mimeType = @"text/html";
-                    } else if ([type compare@"csv" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"csv"] == NSOrderedSame) {
                         mimeType = @"text/csv";
-                    } else if ([type compare@"pdf" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"pdf"] == NSOrderedSame) {
                         mimeType = @"application/pdf";
-                    } else if ([type compare@"vcard" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"vcard"] == NSOrderedSame) {
                         mimeType = @"text/vcard";
-                    } else if ([type compare@"json" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"json"] == NSOrderedSame) {
                         mimeType = @"application/json";
-                    } else if ([type compare@"zip" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"zip"] == NSOrderedSame) {
                         mimeType = @"application/zip";
-                    } else if ([type compare@"text" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"text"] == NSOrderedSame) {
                         mimeType = @"text/*";
-                    } else if ([type compare@"mp3" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"mp3"] == NSOrderedSame) {
                         mimeType = @"audio/mpeg";
-                    } else if ([type compare@"wav" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"wav"] == NSOrderedSame) {
                         mimeType = @"audio/wav";
-                    } else if ([type compare@"aiff" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"aiff"] == NSOrderedSame) {
                         mimeType = @"audio/aiff";
-                    } else if ([type compare@"flac" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"flac"] == NSOrderedSame) {
                         mimeType = @"audio/flac";
-                    } else if ([type compare@"ogg" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"ogg"] == NSOrderedSame) {
                         mimeType = @"audio/ogg";
-                    } else if ([type compare@"xls" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"xls"] == NSOrderedSame) {
                         mimeType = @"application/vnd.ms-excel";
-                    } else if ([type compare@"xlsx" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"xlsx"] == NSOrderedSame) {
                         mimeType = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                    } else if ([type compare@"mov" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"mov"] == NSOrderedSame) {
                         mimeType = @"video/quicktime";
-                    } else if ([type compare@"mp4" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                    } else if ([type localizedCaseInsensitiveCompare:@"mp4"] == NSOrderedSame) {
                         mimeType = @"video/mp4"
                     }
 

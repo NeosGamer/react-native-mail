@@ -88,51 +88,58 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
 
                 // Determine the MIME type
                 NSString *mimeType;
+                if (type != nil){
+                    if ([type compare@"jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"image/jpeg";
+                    } else if ([type compare@"png" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"image/png";
+                    } else if ([type compare@"doc" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/msword";
+                    } else if ([type compare@"docx" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                    } else if ([type compare@"ppt" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/vnd.ms-powerpoint";
+                    } else if ([type compare@"pptx" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/vnd.openxmlformats-officedocument.presentationml.presentation";
+                    } else if ([type compare@"html" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"text/html";
+                    } else if ([type compare@"csv" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"text/csv";
+                    } else if ([type compare@"pdf" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/pdf";
+                    } else if ([type compare@"vcard" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"text/vcard";
+                    } else if ([type compare@"json" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/json";
+                    } else if ([type compare@"zip" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/zip";
+                    } else if ([type compare@"text" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"text/*";
+                    } else if ([type compare@"mp3" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"audio/mpeg";
+                    } else if ([type compare@"wav" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"audio/wav";
+                    } else if ([type compare@"aiff" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"audio/aiff";
+                    } else if ([type compare@"flac" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"audio/flac";
+                    } else if ([type compare@"ogg" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"audio/ogg";
+                    } else if ([type compare@"xls" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/vnd.ms-excel";
+                    } else if ([type compare@"xlsx" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    } else if ([type compare@"mov" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"video/quicktime";
+                    } else if ([type compare@"mp4" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        mimeType = @"video/mp4"
+                    }
 
-                if ([type isEqualToString:@"jpg"]) {
-                    mimeType = @"image/jpeg";
-                } else if ([type isEqualToString:@"png"]) {
-                    mimeType = @"image/png";
-                } else if ([type isEqualToString:@"doc"]) {
-                    mimeType = @"application/msword";
-                } else if ([type isEqualToString:@"docx"]) {
-                    mimeType = @"application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-                } else if ([type isEqualToString:@"ppt"]) {
-                    mimeType = @"application/vnd.ms-powerpoint";
-                } else if ([type isEqualToString:@"pptx"]) {
-                    mimeType = @"application/vnd.openxmlformats-officedocument.presentationml.presentation";
-                } else if ([type isEqualToString:@"html"]) {
-                    mimeType = @"text/html";
-                } else if ([type isEqualToString:@"csv"]) {
-                    mimeType = @"text/csv";
-                } else if ([type isEqualToString:@"pdf"]) {
-                    mimeType = @"application/pdf";
-                } else if ([type isEqualToString:@"vcard"]) {
-                    mimeType = @"text/vcard";
-                } else if ([type isEqualToString:@"json"]) {
-                    mimeType = @"application/json";
-                } else if ([type isEqualToString:@"zip"]) {
-                    mimeType = @"application/zip";
-                } else if ([type isEqualToString:@"text"]) {
-                    mimeType = @"text/*";
-                } else if ([type isEqualToString:@"mp3"]) {
-                    mimeType = @"audio/mpeg";
-                } else if ([type isEqualToString:@"wav"]) {
-                    mimeType = @"audio/wav";
-                } else if ([type isEqualToString:@"aiff"]) {
-                    mimeType = @"audio/aiff";
-                } else if ([type isEqualToString:@"flac"]) {
-                    mimeType = @"audio/flac";
-                } else if ([type isEqualToString:@"ogg"]) {
-                    mimeType = @"audio/ogg";
-                } else if ([type isEqualToString:@"xls"]) {
-                    mimeType = @"application/vnd.ms-excel";
-                } else if ([type isEqualToString:@"xlsx"]) {
-                    mimeType = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                } else if ([type isEqualToString:@"MOV"]) {
-                    mimeType = @"video/quicktime";
+                    if(mimeType != nil && name != nil && fileData != nil){
+                        [mail addAttachmentData:fileData mimeType:mimeType fileName:name];
+                    }
                 }
-                [mail addAttachmentData:fileData mimeType:mimeType fileName:name];
+                
             }
         }
 
